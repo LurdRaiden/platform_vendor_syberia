@@ -30,6 +30,7 @@ import (
 func init() {
 	android.RegisterModuleType("aosp_generator", GeneratorFactory)
 
+	pctx.HostBinToolVariable("sboxCmd", "sbox")
 }
 
 var String = proptools.String
@@ -265,18 +266,17 @@ func (g *Module) GenerateAndroidBuildActions(ctx android.ModuleContext) {
 	// Dummy output dep
 	dummyDep := android.PathForModuleGen(ctx, ".dummy_dep")
 
+	buildDir := android.PathForOutput(ctx, "generator")
 	genDir := android.PathForModuleGen(ctx)
-	manifestPath := android.PathForModuleOut(ctx, "generator.sbox.textproto")
 
 	// Use a RuleBuilder to create a rule that runs the command inside an sbox sandbox.
-	rule := android.NewRuleBuilder(pctx, ctx).Sbox(genDir, manifestPath).SandboxTools()
+	rule := android.NewRuleBuilder(pctx, ctx).Sbox(genDir, buildDir).SandboxTools()
 
 	rule.Command().
 		Text(rawCommand).
 		ImplicitOutput(dummyDep).
 		Implicits(g.inputDeps).
 		Implicits(g.implicitDeps)
-
 	rule.Command().Text("touch").Output(dummyDep)
 
 	g.outputDeps = append(g.outputDeps, dummyDep)
