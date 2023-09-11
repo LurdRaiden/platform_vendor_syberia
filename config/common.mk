@@ -3,6 +3,9 @@
 # Inherit art options
 include vendor/syberia/config/art.mk
 
+# Inherit from custom addons
+$(call inherit-product, vendor/syberia/config/custom.mk)
+
 # ART
 # Optimize everything for preopt
 #PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := everything

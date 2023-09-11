@@ -18,6 +18,14 @@
 # PRODUCT_COPY_FILES to install the font files, so that the NOTICE file can
 # get installed too.
 
+# Apps
+PRODUCT_PACKAGES += \
+    AquaMail \
+    FlatSquircle \
+    MeeUI \
+    SmartLauncher \
+    SoulBrowser
+
 # User Lock Screen
 PRODUCT_PACKAGES += \
     UserLockscreenOverlay
